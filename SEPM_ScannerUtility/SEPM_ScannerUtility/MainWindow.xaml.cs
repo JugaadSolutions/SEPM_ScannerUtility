@@ -23,6 +23,22 @@ namespace SEPM_ScannerUtility
         public MainWindow()
         {
             InitializeComponent();
+
+            ScannerTextBox.TextChanged += ScannerTextBox_TextChanged;
+        }
+
+        void ScannerTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            bool newlineFlag = false;
+            TextBox tb = (TextBox)sender;
+            if (tb.Text.Contains(Environment.NewLine))
+            {
+                MessageBox.Show("new entry", "alert", MessageBoxButton.OK, MessageBoxImage.Information);
+                newlineFlag = true;
+            }
+
+            if (newlineFlag == true)
+                tb.Clear();
         }
     }
 }

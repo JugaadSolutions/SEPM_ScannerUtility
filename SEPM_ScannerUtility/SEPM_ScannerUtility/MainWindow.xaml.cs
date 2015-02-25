@@ -20,11 +20,29 @@ namespace SEPM_ScannerUtility
     /// </summary>
     public partial class MainWindow : Window
     {
+        DataAccess da;
+
+        String[] Receivers;
         public MainWindow()
         {
             InitializeComponent();
 
             ScannerTextBox.TextChanged += ScannerTextBox_TextChanged;
+
+            String connectionString = System.Configuration.ConfigurationSettings.AppSettings["DBConStr"];
+
+            da = new DataAccess(connectionString);
+
+            String receiverList = System.Configuration.ConfigurationSettings.AppSettings["RECEIVER_LIST"];
+
+            Char[] separator = {','};
+
+             Receivers = receiverList.Split(separator);
+
+            
+
+
+
         }
 
         void ScannerTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -33,8 +51,8 @@ namespace SEPM_ScannerUtility
             TextBox tb = (TextBox)sender;
             if (tb.Text.Contains(Environment.NewLine))
             {
-                MessageBox.Show("new entry", "alert", MessageBoxButton.OK, MessageBoxImage.Information);
-                newlineFlag = true;
+                foreach (String r in Receivers)
+                    da.insertSmsTrigger(r, "Scanned Code - " + tb.Text, 1, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             }
 
             if (newlineFlag == true)

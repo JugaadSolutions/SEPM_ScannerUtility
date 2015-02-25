@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 
-namespace IAS
+namespace SEPM_ScannerUtility
 {
     public class DataAccess
     {
